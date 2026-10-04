@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://boudhriwa-haider.vercel.app/sitemap.xml

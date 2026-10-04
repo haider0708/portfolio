@@ -10,6 +10,8 @@ export const siteConfig = {
   get brand() {
     return this.logo || this.name;
   },
+  /** Public address of the site (no trailing slash) — used for the sitemap. */
+  url: "https://boudhriwa-haider.vercel.app",
   /** Used in the browser tab and search results. */
   headline: "Software Architect & AI Engineer",
   /** Hero: "<roleIntro>" above a role that flips through `roleWords`. */

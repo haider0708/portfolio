@@ -93,12 +93,14 @@ button:focus-visible {
 }
 
 /* ═══════════════════════════ Shell ═══════════════════════════ */
+/* Hidden until the intro starts, so nothing flashes before it animates in. */
 .page-root {
   max-width: 100vw;
   overflow-x: hidden;
+  opacity: 0;
 }
 .page-root.is-revealed {
-  animation: page-in 1s forwards;
+  animation: page-in 0.8s ease forwards;
 }
 @keyframes page-in {
   from {
