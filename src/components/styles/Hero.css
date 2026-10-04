@@ -1,0 +1,202 @@
+/* Mobile first: name at the top, role at the bottom, portrait between. */
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: var(--page-max);
+  height: var(--vh);
+  margin: 0 auto;
+}
+.hero__inner {
+  position: relative;
+  width: var(--page-w);
+  max-width: var(--page-max);
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* ── Greeting + name ── */
+.hero__intro {
+  position: absolute;
+  top: calc(96px + env(safe-area-inset-top));
+  left: 0;
+  z-index: 9;
+}
+.hero__hello,
+.hero__kicker {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  color: var(--c-gold);
+}
+.hero__name {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+/* ── Role ── */
+.hero__role {
+  position: absolute;
+  left: 0;
+  bottom: calc(32px + env(safe-area-inset-bottom));
+  z-index: 9;
+  width: max-content; /* size to the words, never squeezed */
+  max-width: calc(100vw - 30px);
+  text-align: left;
+}
+/* Every role word shares one grid cell, so the line keeps the width of the
+   longest word and nothing shifts while they flip. */
+.hero__line {
+  --size: 40px;
+  display: grid;
+  margin: 4px 0 0;
+  font-size: var(--size);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.hero__word {
+  grid-area: 1 / 1;
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  white-space: nowrap;
+}
+.hero__word + .hero__word {
+  visibility: hidden; /* revealed by the intro once it takes over */
+}
+.hero__focus {
+  margin: 12px 0 0;
+  font-size: 10.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--c-muted);
+}
+
+/* ── Scroll cue (desktop) ── */
+.hero__cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 60px;
+  margin-left: -30px;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  opacity: 0;
+}
+.hero__cue i {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--c-line);
+}
+.hero__cue i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--g-gold);
+  transform: translateY(-100%);
+  animation: cue-drop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes cue-drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* ── Larger phones ── */
+@media screen and (min-width: 601px) {
+  .hero__hello,
+  .hero__kicker {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+  .hero__name {
+    font-size: 30px;
+    line-height: 30px;
+    letter-spacing: 2px;
+  }
+  .hero__line {
+    --size: 42px;
+  }
+  .hero__focus {
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+}
+
+/* ── Tablets ── */
+@media screen and (min-width: 768px) {
+  .hero__hello,
+  .hero__kicker {
+    font-size: 25px;
+  }
+  .hero__name {
+    font-size: 40px;
+    line-height: 35px;
+  }
+  .hero__line {
+    --size: 54px;
+  }
+}
+
+/* ── Desktop: name left of the portrait, role right of it ── */
+@media screen and (min-width: 1025px) {
+  .hero__intro {
+    top: 50%;
+    right: 66%;
+    left: auto;
+    transform: translateY(-50%);
+  }
+  .hero__role {
+    top: 51%;
+    bottom: auto;
+    left: 66%;
+    transform: translateY(-50%);
+  }
+  .hero__cue {
+    display: flex;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .hero__intro {
+    right: 70%;
+  }
+  .hero__role {
+    left: 70%;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .hero__hello,
+  .hero__kicker {
+    font-size: 35px;
+  }
+  .hero__name {
+    font-size: 60px;
+    line-height: 55px;
+  }
+  .hero__line {
+    --size: 72px;
+  }
+  .hero__focus {
+    font-size: 13px;
+  }
+}

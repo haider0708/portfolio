@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141c2b"/>
+      <stop offset="1" stop-color="#090c12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#26488c" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#26488c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3e3b5"/>
+      <stop offset="0.45" stop-color="#b48c47"/>
+      <stop offset="1" stop-color="#ecd49a"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <rect x="40" y="40" width="720" height="420" rx="14" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <circle cx="72" cy="68" r="5" fill="#ffffff" fill-opacity="0.12"/>
+  <circle cx="90" cy="68" r="5" fill="#ffffff" fill-opacity="0.12"/>
+  <circle cx="108" cy="68" r="5" fill="#ffffff" fill-opacity="0.12"/>
+  <g transform="translate(400 250)" text-anchor="middle">
+    <text y="-6" font-family="Georgia, serif" font-style="italic" font-size="44" fill="url(#gold)">Project preview</text>
+    <text y="34" font-family="Helvetica, Arial, sans-serif" font-size="13" letter-spacing="5" fill="#8b93a1">ADD YOUR SCREENSHOT</text>
+  </g>
+</svg>

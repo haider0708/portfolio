@@ -1,0 +1,380 @@
+/* ═══════════════════════════ Layout ═══════════════════════════ */
+.services {
+  position: relative;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--page-w);
+  max-width: 1920px;
+  height: 100vh;
+  margin: 0 auto;
+}
+.services__col {
+  position: relative;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+.services__title {
+  margin: 0 10% 100px 0;
+  font-size: calc(4vw + 25px);
+  font-weight: 600;
+  line-height: calc(4vw + 20px);
+}
+.services__title-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+.services__title-gold {
+  color: var(--c-gold-soft);
+}
+.services__stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: 120px;
+}
+
+/* Dashed vertical lines framing the stack (drawn in via max-height) */
+.services__frame {
+  --dash: rgba(196, 202, 211, 0.55);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-50%);
+  opacity: 0.25;
+  background:
+    linear-gradient(to bottom, var(--dash) 50%, transparent 50%) left top / 1px
+      14px repeat-y,
+    linear-gradient(to bottom, var(--dash) 50%, transparent 50%) right top / 1px
+      14px repeat-y;
+}
+
+/* ═══════════════════════════ Service card ═══════════════════════════ */
+.service {
+  position: relative;
+  box-sizing: border-box;
+  width: 520px;
+  padding: 34px 40px 40px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.4s ease;
+}
+.service:hover {
+  background: rgba(201, 169, 106, 0.035);
+}
+
+/* Dashed horizontal rules: bottom on every card, top on the first
+   (drawn in via max-width from the centre) */
+.service__rule {
+  --dash: rgba(196, 202, 211, 0.55);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%);
+  opacity: 0.25;
+  background: linear-gradient(to right, var(--dash) 50%, transparent 50%) left
+    bottom / 12px 1px repeat-x;
+}
+.service--first .service__rule {
+  background:
+    linear-gradient(to right, var(--dash) 50%, transparent 50%) left top / 12px
+      1px repeat-x,
+    linear-gradient(to right, var(--dash) 50%, transparent 50%) left bottom /
+      12px 1px repeat-x;
+}
+
+/* Four gold corner brackets */
+.service__corners {
+  --c: var(--c-gold);
+  --len: 10px;
+  --t: 2px;
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) left top / var(--len) var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) left top / var(--t) var(--len) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--len) var(--t)
+      no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--t) var(--len)
+      no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--len) var(--t)
+      no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--t) var(--len)
+      no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--len) var(--t)
+      no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--t) var(--len)
+      no-repeat;
+}
+
+.service__kicker {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+.service__title {
+  margin: 0;
+  font-size: 35px;
+  letter-spacing: 0.5px;
+}
+.service__text {
+  margin: 1em 0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0.7px;
+  color: #c9ced6;
+}
+
+/* Engineer → Analyse → Train → Deploy */
+.service__flow {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 14px 0 4px;
+  padding: 0;
+}
+.service__flow li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--c-gold-soft);
+}
+.service__flow li:not(:last-child)::after {
+  content: "→";
+  color: var(--c-muted);
+}
+
+/* ═══════════════════════════ Skills reveal ═══════════════════════════ */
+.service__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--c-silver);
+  transition: color 0.3s ease;
+}
+.service__count {
+  padding: 2px 7px;
+  border-radius: 100px;
+  border: 1px solid var(--c-line);
+  font-size: 10px;
+  letter-spacing: 0;
+  color: var(--c-muted);
+}
+.service__plus {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+.service__plus::before,
+.service__plus::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 10px;
+  height: 1px;
+  background: var(--c-gold);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.service__plus::after {
+  transform: rotate(90deg);
+}
+.service__skills {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.service__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: padding-top 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.service__tag {
+  padding: 2px 7px;
+  border-radius: 30px;
+  border: 1px solid rgba(196, 202, 211, 0.22);
+  background: rgba(196, 202, 211, 0.06);
+  font-size: 13px;
+  color: var(--c-silver);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* open: tapped (.is-open), keyboard focus, or hovered on pointer devices */
+.service.is-open .service__skills,
+.service:focus-visible .service__skills {
+  grid-template-rows: 1fr;
+}
+.service.is-open .service__tags,
+.service:focus-visible .service__tags {
+  padding-top: 12px;
+}
+.service.is-open .service__tag,
+.service:focus-visible .service__tag {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * 22ms);
+}
+.service.is-open .service__toggle,
+.service:focus-visible .service__toggle {
+  color: var(--c-gold-soft);
+}
+.service.is-open .service__plus::after,
+.service:focus-visible .service__plus::after {
+  transform: rotate(0deg);
+}
+@media (hover: hover) {
+  .service:hover .service__skills {
+    grid-template-rows: 1fr;
+  }
+  .service:hover .service__tags {
+    padding-top: 12px;
+  }
+  .service:hover .service__tag {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 22ms);
+  }
+  .service:hover .service__toggle {
+    color: var(--c-gold-soft);
+  }
+  .service:hover .service__plus::after {
+    transform: rotate(0deg);
+  }
+}
+
+/* ═══════════════════════════ Responsive ═══════════════════════════ */
+@media only screen and (min-width: 1950px) {
+  .services__title {
+    font-size: 7rem;
+    line-height: 6.8rem;
+  }
+}
+@media only screen and (max-width: 1600px) {
+  .services__title {
+    margin-right: 18%;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .services__title {
+    margin-right: 20%;
+  }
+  .services__stack {
+    margin-left: 50px;
+  }
+  .service {
+    width: 440px;
+    padding: 28px 32px 32px;
+  }
+  .service__title {
+    font-size: 26px;
+  }
+  .service__text {
+    font-size: 13px;
+  }
+  .service__tag {
+    font-size: 12px;
+  }
+}
+/* short laptop screens: keep both cards inside the viewport */
+@media only screen and (min-width: 1025px) and (max-height: 820px) {
+  .service {
+    padding: 20px 32px 24px;
+  }
+  .service__title {
+    font-size: 24px;
+  }
+  .service__text {
+    margin: 8px 0;
+  }
+  .service__toggle {
+    margin-top: 12px;
+  }
+  .service__flow {
+    margin: 8px 0 2px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .services {
+    height: auto;
+    padding: 50px 0;
+  }
+  .services__stack {
+    margin-left: -50px;
+  }
+  .service {
+    width: 500px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .services {
+    flex-direction: column;
+  }
+  .services__col {
+    width: 500px;
+    max-width: calc(100% - 50px);
+    margin: auto;
+  }
+  .services__col:first-child {
+    justify-content: flex-start;
+  }
+  .services__title {
+    margin: 50px 0;
+    font-size: 55px;
+    line-height: 53px;
+  }
+  .services__stack {
+    margin-left: 0;
+  }
+  .service {
+    width: 100%;
+    padding: 26px 22px 28px;
+  }
+  .service__title {
+    font-size: 25px;
+  }
+  .service__tag {
+    font-size: 11px;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .services {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .services__col {
+    max-width: calc(100% - 25px);
+    margin: 0;
+  }
+}

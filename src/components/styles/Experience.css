@@ -1,0 +1,255 @@
+/* ═══════════════════════════ Section ═══════════════════════════ */
+.experience {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 120px;
+  padding: 90px 0;
+}
+.experience__title {
+  margin: 50px 0 90px;
+  font-size: 70px;
+  font-weight: 400;
+  line-height: 70px;
+  text-align: center;
+  background: linear-gradient(0deg, var(--c-gold), #ffffff 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.experience__title span {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ═══════════════════════════ Timeline ═══════════════════════════ */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+/* grows from 0 to full height as the section is scrolled */
+.timeline__line {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  width: 3px;
+  height: 100%;
+  max-height: 0%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to top,
+    var(--c-gold-deep) 20%,
+    var(--c-gold) 50%,
+    transparent 95%
+  );
+}
+.timeline__dot {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  background: var(--c-gold-soft);
+  box-shadow:
+    0 0 6px 2px rgba(228, 207, 159, 0.9),
+    0 0 18px 6px rgba(201, 169, 106, 0.45);
+}
+.timeline__dot::after {
+  /* pulse ring — transform/opacity only */
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(228, 207, 159, 0.8);
+  animation: dot-pulse 1.8s ease-out infinite;
+}
+@keyframes dot-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════ Role ═══════════════════════════ */
+.role {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+.role__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  width: 40%;
+  margin: 0;
+}
+.role__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.8px;
+}
+.role__company {
+  margin: 10px 0;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.7px;
+  text-transform: capitalize;
+  color: var(--c-gold);
+}
+.role__period {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: var(--c-muted);
+}
+.role__mark {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 45px;
+}
+.role__body {
+  width: 40%;
+}
+.role__body p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--c-muted);
+}
+.role__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.role__links a {
+  padding: 5px 11px;
+  border-radius: 100px;
+  border: 1px solid rgba(201, 169, 106, 0.35);
+  font-size: 12px;
+  color: var(--c-gold-soft);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+.role__links a:hover {
+  background: var(--g-gold);
+  color: var(--c-bg);
+}
+
+/* ═══════════════════════════ Responsive ═══════════════════════════ */
+@media only screen and (max-width: 1400px) {
+  .experience__title {
+    font-size: 50px;
+    line-height: 50px;
+  }
+  .role__head {
+    width: 45%;
+    gap: 20px;
+  }
+  .role__body {
+    width: 45%;
+  }
+  .role__title {
+    max-width: 260px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+  .role__company {
+    font-size: 17px;
+  }
+  .role__mark {
+    font-size: 40px;
+  }
+  .role__body p {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 1025px) {
+  .experience {
+    margin-top: -200px;
+    margin-bottom: 0;
+    padding: 220px 0 70px;
+  }
+}
+
+/* Tablet & mobile: line on the left, year as a small label above each role */
+@media only screen and (max-width: 900px) {
+  .experience__inner {
+    width: calc(100% - 25px);
+  }
+  .timeline {
+    padding-left: 22px;
+  }
+  .timeline__line {
+    left: 0;
+  }
+  .role {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+  .role__head,
+  .role__body {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .role__head {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .role__mark {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 3px;
+    color: var(--c-gold);
+  }
+  .role__title {
+    max-width: none;
+    font-size: 21px;
+    line-height: 1.2;
+  }
+  .role__company {
+    margin: 6px 0 4px;
+    font-size: 15px;
+  }
+  .role__body p {
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .experience {
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: -70px;
+    padding-top: 90px;
+  }
+  .experience__title {
+    width: 100%;
+    margin-top: 0;
+    font-size: 45px;
+    line-height: 45px;
+  }
+  .timeline {
+    margin: 0;
+  }
+}

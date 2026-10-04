@@ -1,0 +1,385 @@
+/* ═══════════════════════════ Section ═══════════════════════════ */
+.work {
+  box-sizing: border-box;
+  height: 100vh;
+  will-change: transform;
+}
+.work__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 auto;
+}
+.work__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 100px;
+}
+.work__title {
+  margin: 0 0 20px;
+  font-size: 70px;
+  font-weight: 500;
+}
+.work__title span {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-gold-soft);
+}
+
+/* Counter + progress */
+.work__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  min-width: 180px;
+  margin-bottom: 34px;
+}
+.work__count {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--c-muted);
+  font-variant-numeric: tabular-nums;
+}
+.work__count span {
+  color: var(--c-gold-soft);
+}
+.work__hint {
+  display: none;
+}
+.work__track {
+  width: 180px;
+  height: 1px;
+  overflow: hidden;
+  background: var(--c-line);
+}
+.work__bar {
+  width: 100%;
+  height: 100%;
+  background: var(--g-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ═══════════════════════════ Rail of cards ═══════════════════════════ */
+.work__rail {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-left: -80px;
+  padding-right: 120px;
+}
+/* hairlines above and below the row, running edge to edge */
+.work__rail::before,
+.work__rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50000vw;
+  height: 1px;
+  transform: translateX(-50%);
+  background: var(--c-line);
+}
+.work__rail::after {
+  top: 100%;
+}
+
+.work-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  gap: 50px;
+  width: 600px;
+  padding: 80px;
+  border-right: 1px solid var(--c-line);
+}
+/* alternate cards put the cover on top for rhythm */
+.work-card:nth-child(even) {
+  flex-direction: column-reverse;
+}
+.work-card__head {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.work-card__num {
+  font-size: 50px;
+  font-weight: 500;
+  line-height: 50px;
+  background: var(--g-silver);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.work-card__meta {
+  text-align: right;
+}
+.work-card__name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+.work-card__cat {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--c-gold);
+}
+.work-card__tagline {
+  width: 90%;
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #c9ced6;
+}
+.work-card__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+.work-card__tags li {
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(196, 202, 211, 0.18);
+  background: rgba(196, 202, 211, 0.04);
+  font-size: 12px;
+  color: var(--c-silver);
+}
+.work-card__cover {
+  display: block;
+  width: 100%;
+  border-radius: 14px;
+}
+.work-card__cover .cover {
+  transition:
+    border-color 0.4s ease,
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.work-card__cover:hover .cover {
+  border-color: rgba(201, 169, 106, 0.4);
+  transform: translateY(-4px);
+}
+
+/* Closing "all projects" card */
+.work-card--cta {
+  justify-content: center;
+}
+.all-link {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px 0;
+}
+.all-link:hover {
+  color: inherit;
+}
+.all-link__count {
+  width: fit-content;
+  font-size: clamp(70px, 9vw, 140px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -4px;
+  background: var(--g-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.all-link__text {
+  font-size: clamp(26px, 2.6vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+.all-link__text .serif-accent {
+  color: var(--c-gold-soft);
+}
+.all-link__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 106, 0.5);
+  font-size: 26px;
+  color: var(--c-gold-soft);
+  transition:
+    background 0.5s ease,
+    color 0.5s ease,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.all-link:hover .all-link__icon {
+  background: var(--g-gold);
+  color: var(--c-bg);
+  transform: rotate(45deg);
+}
+
+/* ═══════════════════════════ Responsive (order matters) ═══════════════════════════ */
+@media only screen and (max-height: 900px) {
+  .work-card {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .work__title {
+    margin-bottom: 10px;
+    font-size: 60px;
+  }
+  .work__head {
+    margin-top: 70px;
+    margin-bottom: 20px;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .work__title {
+    font-size: 50px;
+  }
+  .work-card {
+    width: 350px;
+    padding: 30px;
+  }
+  .work__rail {
+    margin-left: -30px;
+    padding-right: 45px;
+  }
+  .work-card__num {
+    font-size: 35px;
+  }
+  .work-card__name {
+    font-size: 18px;
+  }
+  .work-card__tags li {
+    font-size: 11px;
+  }
+}
+@media only screen and (max-height: 650px) {
+  .work__title {
+    margin-bottom: 20px;
+    font-size: 40px;
+  }
+  .work-card {
+    gap: 20px;
+  }
+}
+@media only screen and (max-width: 1025px) {
+  .work__rail {
+    height: auto;
+  }
+}
+
+/* ═══════════════════════════ Phones & tablets: swipe carousel ═══════════════════════════ */
+@media only screen and (max-width: 1024px) {
+  .work {
+    height: auto;
+    padding-bottom: 40px;
+  }
+  .work__inner {
+    width: 100%;
+    max-width: none;
+  }
+  .work__head {
+    width: var(--page-w);
+    margin: 90px auto 26px;
+  }
+  .work__title {
+    margin: 0;
+    font-size: 44px;
+  }
+  .work__progress {
+    min-width: 0;
+    margin-bottom: 8px;
+  }
+  .work__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+  .work__hint::after {
+    content: "→";
+    letter-spacing: 0;
+    color: var(--c-gold);
+  }
+  .work__track {
+    width: 90px;
+  }
+  .work__rail {
+    box-sizing: border-box;
+    gap: 14px;
+    height: auto;
+    margin: 0;
+    padding: 4px 15px 18px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 15px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .work__rail::-webkit-scrollbar {
+    display: none;
+  }
+  .work__rail::before,
+  .work__rail::after {
+    display: none;
+  }
+  .work-card,
+  .work-card:nth-child(even) {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 18px;
+    width: min(84vw, 380px);
+    padding: 0;
+    border-right: none;
+    scroll-snap-align: start;
+  }
+  .work-card__cover {
+    order: -1;
+  }
+  .work-card__head {
+    margin-bottom: 10px;
+  }
+  .work-card__num {
+    font-size: 30px;
+    line-height: 1;
+  }
+  .work-card__name {
+    font-size: 18px;
+  }
+  .work-card--cta {
+    justify-content: center;
+    width: min(60vw, 260px);
+  }
+  .all-link {
+    padding: 0;
+  }
+  .all-link__count {
+    font-size: 72px;
+  }
+  .all-link__text {
+    font-size: 26px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .work__progress {
+    min-width: 0;
+  }
+  .work__track {
+    width: 90px;
+  }
+}

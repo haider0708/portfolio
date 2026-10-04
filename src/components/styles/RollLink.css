@@ -1,0 +1,24 @@
+.roll {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.roll__track {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  transition:
+    transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1),
+    color 0.35s ease;
+}
+.roll__face--alt {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+a:hover .roll__track,
+.roll:hover .roll__track {
+  transform: translateY(-100%);
+  color: var(--c-gold);
+}

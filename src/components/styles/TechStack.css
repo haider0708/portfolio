@@ -1,0 +1,336 @@
+.stack-section {
+  position: relative;
+  padding: 160px 0 120px;
+  overflow: hidden;
+}
+.stack-section::before {
+  /* soft navy halo behind the grid */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 1200px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(38, 72, 140, 0.18) 0%,
+    rgba(201, 169, 106, 0.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.stack-container {
+  position: relative;
+  margin: auto;
+}
+
+/* ---------- Head ---------- */
+.stack-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 56px;
+}
+.stack-head h2 {
+  margin: 0;
+  font-size: 80px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -1.5px;
+}
+.stack-head h2 .serif-accent {
+  color: var(--c-gold-soft);
+  font-size: 1.1em;
+}
+.stack-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+.stack-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--g-gold);
+  box-shadow: 0 0 10px rgba(201, 169, 106, 0.6);
+}
+.stack-label {
+  margin: 0 0 18px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+/* ---------- Expertise index ---------- */
+.stack-expertise {
+  margin-bottom: 64px;
+}
+.stack-expertise ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  column-gap: 32px;
+  border-top: 1px solid var(--c-line);
+}
+.stack-expertise li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--c-line);
+  font-size: 15px;
+  color: var(--c-text);
+}
+.stack-expertise li svg {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--c-silver);
+}
+.stack-expertise li.stack-exp-gold svg {
+  color: var(--c-gold);
+}
+
+/* ---------- Tabs ---------- */
+.stack-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 26px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.stack-tabs::-webkit-scrollbar {
+  display: none;
+}
+.stack-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--c-line);
+  background: transparent;
+  color: var(--c-silver);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease;
+}
+.stack-tab:hover {
+  border-color: rgba(201, 169, 106, 0.4);
+  color: var(--c-text);
+}
+.stack-tab.is-active {
+  background: rgba(201, 169, 106, 0.1);
+  border-color: rgba(201, 169, 106, 0.55);
+  color: var(--c-gold-soft);
+}
+.stack-tab-count {
+  font-size: 11px;
+  color: var(--c-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Logo grid ---------- */
+.stack-field {
+  position: relative; /* offsetParent for tile measurement */
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+.stack-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+}
+.stack-tile {
+  perspective: 600px;
+  transition: opacity 0.5s ease;
+}
+.stack-tile.is-dim {
+  opacity: 0.12 !important;
+}
+.stack-float {
+  height: 100%;
+  animation: stackFloat var(--float-dur, 6s) ease-in-out var(--float-delay, 0s)
+    infinite;
+  animation-play-state: paused;
+}
+.stack-section.is-live .stack-float {
+  animation-play-state: running;
+}
+@keyframes stackFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+.stack-tile-in {
+  --glow: 0;
+  --mx: 50%;
+  --my: 50%;
+  --metal: linear-gradient(
+    160deg,
+    rgba(196, 202, 211, 0.24),
+    rgba(196, 202, 211, 0.06)
+  );
+  --ink: var(--c-silver);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  aspect-ratio: 1 / 1;
+  padding: 14px 8px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(160deg, #0f141c, #0a0d13) padding-box,
+    var(--metal) border-box;
+  text-align: center;
+  cursor: default;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 0 calc(var(--glow) * 26px) calc(var(--glow) * -6px)
+    color-mix(in srgb, var(--ink) 50%, transparent);
+}
+.stack-tile-in::after {
+  /* light that follows the pointer across the tile */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--ink) 20%, transparent),
+    transparent 70%
+  );
+  opacity: var(--glow);
+  pointer-events: none;
+}
+.stack-icon {
+  font-size: 28px;
+  color: var(--ink);
+}
+.stack-tile-in span {
+  font-size: 11.5px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #c9ced6;
+}
+.stack-gold .stack-tile-in {
+  --metal: var(--g-gold);
+  --ink: var(--c-gold);
+}
+.stack-gold .stack-tile-in::before {
+  /* small gold marker for core strengths */
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c-gold);
+}
+.stack-gold .stack-tile-in span {
+  color: var(--c-gold-soft);
+}
+
+@media only screen and (max-width: 1400px) {
+  .stack-head h2 {
+    font-size: 64px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .stack-section {
+    padding: 110px 0 80px;
+  }
+  .stack-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .stack-head h2 {
+    font-size: 46px;
+  }
+  .stack-expertise {
+    margin-bottom: 44px;
+  }
+  .stack-expertise li {
+    font-size: 14px;
+    padding: 13px 0;
+  }
+  .stack-grid {
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: 8px;
+  }
+  .stack-icon {
+    font-size: 24px;
+  }
+  .stack-tile-in span {
+    font-size: 10.5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-float {
+    animation: none;
+  }
+}
+
+/* ───────────── Phones: filters hide (not dim) and tiles go compact ───────────── */
+@media only screen and (max-width: 900px) {
+  .stack-tile.is-dim {
+    display: none;
+  }
+  .stack-tabs {
+    margin: 0 -15px 22px;
+    padding: 0 15px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .stack-grid {
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    gap: 8px;
+  }
+  .stack-tile-in {
+    aspect-ratio: auto;
+    min-height: 78px;
+    padding: 12px 6px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+  .stack-icon {
+    font-size: 22px;
+  }
+  .stack-tile-in span {
+    font-size: 10px;
+  }
+  .stack-gold .stack-tile-in::before {
+    top: 7px;
+    right: 7px;
+  }
+}
