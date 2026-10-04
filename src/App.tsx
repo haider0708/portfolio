@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import IntroGate from "./components/IntroGate";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -57,6 +58,8 @@ const App = () => (
         />
       </Routes>
     </BrowserRouter>
+    {/* Vercel visitor and page-view counts (only reports on the live site) */}
+    <Analytics />
   </ErrorBoundary>
 );
 
