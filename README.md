@@ -63,9 +63,22 @@ src/
 
 ## Deployment
 
-Any static host works. SPA fallbacks are included for **Vercel**
-(`vercel.json`) and **Netlify** (`public/_redirects`) so deep links such as
-`/projects/1111-tundata` resolve.
+Built for **Vercel** (`vercel.json`). The build writes every route as its
+own HTML file — `/projects`, each `/projects/<slug>` and a real `404.html` —
+so any static host with clean URLs serves deep links directly.
+
+## SEO
+
+Generated at build time from `src/seo` and the data in `src/data`, so new
+projects are picked up automatically:
+
+- per-page title, description, canonical URL, Open Graph / Twitter tags
+- JSON-LD: `Person`, `WebSite`, `ProfilePage`, `CollectionPage` + `ItemList`,
+  a `CreativeWork` per project and `BreadcrumbList`s
+- a no-JavaScript copy of each page's content for crawlers and AI bots
+- `sitemap.xml` (with image entries), `robots.txt` and `llms.txt`
+
+The public address lives in `siteConfig.url` (`src/data/siteConfig.ts`).
 
 ## License
 

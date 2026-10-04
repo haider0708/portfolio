@@ -1,3 +1,5 @@
+# Everything on this site is public and may be indexed — including by AI
+# search engines, which can also read /llms.txt for a plain-text summary.
 User-agent: *
 Allow: /
 

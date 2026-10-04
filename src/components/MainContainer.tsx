@@ -2,7 +2,8 @@ import { lazy, Suspense, useEffect } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ScrollTrigger } from "../lib/gsap";
 import { intro } from "../lib/intro";
-import { siteConfig } from "../data/siteConfig";
+import { homeMeta } from "../seo/meta";
+import { useSeo } from "../seo/useSeo";
 import About from "./About";
 import Experience from "./Experience";
 import Contact from "./Contact";
@@ -23,9 +24,9 @@ const TechStack = lazy(() => import("./TechStack"));
 
 const MainContainer = () => {
   const isDesktop = useMediaQuery("(min-width: 1025px)");
+  useSeo(homeMeta());
 
   useEffect(() => {
-    document.title = `${siteConfig.name} — ${siteConfig.headline}`;
     const cleanups = [initScrollAnimations(), initSplitText()];
     // Fonts change text metrics, so trigger positions must be re-measured.
     document.fonts.ready.then(() => ScrollTrigger.refresh());

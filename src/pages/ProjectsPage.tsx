@@ -5,6 +5,7 @@ import { categories, Category, projects } from "../data/projects";
 import { certifications, openSource, skillGroups } from "../data/profile";
 import ProjectCover from "../components/ProjectCover";
 import SubpageLayout from "./SubpageLayout";
+import { projectsMeta } from "../seo/meta";
 
 type Filter = "All" | Category;
 
@@ -29,7 +30,7 @@ const ProjectsPage = () => {
   );
 
   return (
-    <SubpageLayout title="Projects" revealKey={filter}>
+    <SubpageLayout meta={projectsMeta()} revealKey={filter}>
       <section className="wrap sub-hero">
         <p className="sub-kicker" data-reveal>
           {selected.length} selected projects · {archived.length} in the archive

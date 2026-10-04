@@ -5,6 +5,7 @@ import ProjectCover from "../components/ProjectCover";
 import StatusPill from "../components/StatusPill";
 import NotFound from "./NotFound";
 import SubpageLayout from "./SubpageLayout";
+import { projectMeta } from "../seo/meta";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -68,7 +69,7 @@ const ProjectPage = () => {
   const next = projects[(index + 1) % projects.length];
 
   return (
-    <SubpageLayout title={project.title} revealKey={project.slug}>
+    <SubpageLayout meta={projectMeta(project)} revealKey={project.slug}>
       <article className="pp" key={project.slug}>
         <header className="wrap pp-hero">
           <Link to="/projects" className="pp-back" data-cursor="hide">

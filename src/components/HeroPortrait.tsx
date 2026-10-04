@@ -45,7 +45,8 @@ const HeroPortrait = () => {
               width={1122}
               height={1402}
               decoding="async"
-              fetchPriority="high"
+              // lower-case: React 18 doesn't know the camel-cased prop yet
+              {...{ fetchpriority: "high" }}
             />
           ) : (
             <div className="hero-media hero-monogram" aria-hidden="true">

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import SubpageLayout from "./SubpageLayout";
+import { notFoundMeta } from "../seo/meta";
 
 const NotFound = () => (
-  <SubpageLayout title="Not found">
+  <SubpageLayout meta={notFoundMeta()}>
     <section className="wrap sub-empty">
       <p className="sub-kicker">404</p>
       <h1>
