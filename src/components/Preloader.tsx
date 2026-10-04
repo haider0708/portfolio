@@ -3,16 +3,13 @@ import { siteConfig } from "../data/siteConfig";
 import { intro } from "../lib/intro";
 import "./styles/Preloader.css";
 
-type Phase = "loading" | "ready" | "exit";
+type Phase = "loading" | "ready" | "reveal" | "open";
 
 /* Timeline after reaching 100% (ms). */
-const READY_AFTER = 350; // counter settles, "Welcome" takes over
-const EXIT_AFTER = 1100; // hold the greeting, then start the panel wave
-const INTRO_OFFSET = 250; // start the hero intro while the panels lift
-const EXIT_FALLBACK = 2200; // finish anyway if the last panel never reports
-
-/** Vertical panels that make up the curtain (fewer on narrow screens). */
-const PANELS = typeof window !== "undefined" && window.innerWidth < 768 ? 4 : 6;
+const READY_AFTER = 100; // frame closes, monogram catches the light
+const REVEAL_AFTER = 800; // monogram fades, the portrait develops in the frame
+const OPEN_AFTER = 1000; // then the frame opens out onto the page
+const OPEN_FALLBACK = 2400; // finish anyway if the portal never reports
 
 /** Counts towards 90% while assets load, then completes once they have. */
 const useLoadProgress = () => {
@@ -45,43 +42,32 @@ const useLoadProgress = () => {
   return percent;
 };
 
-/** Splits text into masked characters that rise in one after another. */
-const RisingText = ({ text, delay = 0 }: { text: string; delay?: number }) => (
-  <span className="pl-rise" aria-hidden="true">
-    {[...text].map((char, i) => (
-      <span className="pl-rise__mask" key={i}>
-        <span
-          className="pl-rise__char"
-          style={{ "--d": `${delay + i * 45}ms` } as CSSProperties}
-        >
-          {char === " " ? " " : char}
-        </span>
-      </span>
-    ))}
-  </span>
-);
+/* The portrait's arch, drawn as two halves that meet at the top. */
+const ARCH_LEFT = "M200 500H24A24 25 0 0 1 0 475V200A200 200 0 0 1 200 0";
+const ARCH_RIGHT = "M200 500H376A24 25 0 0 0 400 475V200A200 200 0 0 0 200 0";
 
 /**
- * First-visit preloader. Name rises in, roles cycle, a three-digit gold
- * counter tracks real loading. At 100% it greets the visitor, then the
- * screen splits into vertical panels that lift away in a wave while the
- * hero builds in underneath.
+ * First-visit preloader. An arch — the exact frame of the hero portrait —
+ * draws itself as the page loads while the monogram fills with gold. At
+ * 100% the portrait develops inside the frame, then the frame opens out to
+ * reveal the whole page.
  */
 const Preloader = ({ onFinish }: { onFinish: () => void }) => {
   const percent = useLoadProgress();
   const [phase, setPhase] = useState<Phase>("loading");
   const [role, setRole] = useState(0);
-  const panelsRef = useRef<HTMLDivElement>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
+  const words = siteConfig.loadingWords;
 
-  // Cycle the role words while loading.
+  // Roll through the role words while loading.
   useEffect(() => {
     if (phase !== "loading") return;
     const timer = window.setInterval(
-      () => setRole((r) => (r + 1) % siteConfig.loadingWords.length),
-      1100,
+      () => setRole((r) => (r + 1) % words.length),
+      1000,
     );
     return () => window.clearInterval(timer);
-  }, [phase]);
+  }, [phase, words.length]);
 
   useEffect(() => {
     if (percent < 100) return;
@@ -89,40 +75,44 @@ const Preloader = ({ onFinish }: { onFinish: () => void }) => {
     const at = (ms: number, fn: () => void) =>
       timers.push(window.setTimeout(fn, ms));
 
+    const fx = import("./utils/initialFX"); // warm it up before it's needed
+
     at(READY_AFTER, () => setPhase("ready"));
-    at(READY_AFTER + EXIT_AFTER, () => setPhase("exit"));
-    at(READY_AFTER + EXIT_AFTER + INTRO_OFFSET, async () => {
-      const { initialFX } = await import("./utils/initialFX");
+    at(READY_AFTER + REVEAL_AFTER, async () => {
+      const { initialFX } = await fx;
+      setPhase("reveal");
       initialFX();
       intro.played = true;
     });
+    at(READY_AFTER + REVEAL_AFTER + OPEN_AFTER, () => setPhase("open"));
 
     return () => timers.forEach(window.clearTimeout);
   }, [percent]);
 
-  // Unmount once the last panel has actually left the screen, so a busy main
-  // thread can never cut the wave short.
+  // Unmount once the frame has fully opened, so a busy main thread can
+  // never cut the transition short.
   useEffect(() => {
-    if (phase !== "exit") return;
-    const last = panelsRef.current?.lastElementChild;
+    if (phase !== "open") return;
+    const portal = portalRef.current;
     let done = false;
     const finish = () => {
       if (done) return;
       done = true;
       onFinish();
     };
-    const onEnd = (e: Event) => {
-      if ((e as TransitionEvent).propertyName === "transform") finish();
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === portal && e.propertyName === "width") finish();
     };
-    last?.addEventListener("transitionend", onEnd);
-    const fallback = window.setTimeout(finish, EXIT_FALLBACK);
+    portal?.addEventListener("transitionend", onEnd);
+    const fallback = window.setTimeout(finish, OPEN_FALLBACK);
     return () => {
-      last?.removeEventListener("transitionend", onEnd);
+      portal?.removeEventListener("transitionend", onEnd);
       window.clearTimeout(fallback);
     };
   }, [phase, onFinish]);
 
-  const [first, ...rest] = siteConfig.name.toUpperCase().split(" ");
+  const monogram = `${siteConfig.firstName[0]}${siteConfig.lastName[0]}`;
+  const loading = phase === "loading";
 
   return (
     <div
@@ -130,56 +120,66 @@ const Preloader = ({ onFinish }: { onFinish: () => void }) => {
       style={{ "--progress": percent / 100 } as CSSProperties}
       role="status"
       aria-live="polite"
-      aria-label={phase === "loading" ? `Loading ${percent}%` : "Welcome"}
+      aria-label={loading ? `Loading ${percent}%` : "Welcome"}
     >
-      {/* the curtain: vertical panels with gold leading edges */}
-      <div className="pl-panels" ref={panelsRef} aria-hidden="true">
-        {Array.from({ length: PANELS }, (_, i) => (
-          <span key={i} style={{ "--i": i } as CSSProperties} />
-        ))}
+      {/* The portal: a hole in the curtain shaped like the portrait frame */}
+      <div className="pl-portal" ref={portalRef} aria-hidden="true">
+        <div className="pl-fill">
+          <div className="pl-mono">
+            <span className="pl-mono__ghost">{monogram}</span>
+            <span className="pl-mono__gold">{monogram}</span>
+          </div>
+          <span className="pl-count">
+            {String(percent).padStart(3, "0")}
+            <small>%</small>
+          </span>
+        </div>
+        <svg className="pl-arch" viewBox="0 0 400 500" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="pl-gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#f3e3b5" />
+              <stop offset="0.45" stopColor="#b48c47" />
+              <stop offset="0.7" stopColor="#ecd49a" />
+              <stop offset="1" stopColor="#7d5e2b" />
+            </linearGradient>
+          </defs>
+          <path d={ARCH_LEFT} pathLength={1} />
+          <path d={ARCH_RIGHT} pathLength={1} />
+        </svg>
       </div>
 
-      <div className="pl-content">
-        <header className="pl-top">
+      {/* Registration marks that lock onto the frame */}
+      <div className="pl-marks" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+
+      <div className="pl-ui">
+        <header className="pl-row">
           <span className="pl-brand">{siteConfig.brand}</span>
-          <span className="pl-meta">Portfolio — ©{siteConfig.year}</span>
+          <span className="pl-label">Portfolio — ©{siteConfig.year}</span>
         </header>
 
-        <div className="pl-center">
-          <h2 className="pl-name">
-            <RisingText text={first} delay={150} />
-            <RisingText text={rest.join(" ")} delay={150 + first.length * 45} />
-          </h2>
-          <div className="pl-roles" aria-hidden="true">
-            {siteConfig.loadingWords.map((word, i) => (
-              <span
-                key={word}
-                className={i === role ? "is-current" : undefined}
-              >
-                {word}
-              </span>
+        <div className="pl-roles" aria-hidden="true">
+          <div
+            className="pl-roles__track"
+            style={{ "--role": role } as CSSProperties}
+          >
+            {words.map((word) => (
+              <span key={word}>{word}</span>
             ))}
           </div>
         </div>
 
-        <footer className="pl-bottom">
-          <div className="pl-swap" aria-hidden="true">
-            <span className="pl-count">
-              {String(percent).padStart(3, "0")}
-              <small>%</small>
-            </span>
-            <span className="pl-welcome">
-              Welcome<span className="serif-accent">.</span>
-            </span>
-          </div>
-          <span className="pl-status">
-            {phase === "loading" ? "Loading experience" : "Ready"}
+        <footer className="pl-row">
+          <span className="pl-label pl-status">
+            <span className={loading ? "is-on" : undefined}>Loading</span>
+            <span className={loading ? undefined : "is-on"}>Ready</span>
           </span>
+          <span className="pl-label">{siteConfig.location}</span>
         </footer>
-
-        <div className="pl-line" aria-hidden="true">
-          <i />
-        </div>
       </div>
     </div>
   );
