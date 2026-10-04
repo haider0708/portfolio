@@ -33,6 +33,9 @@ const setLandingTimelines = () => {
     .fromTo(".hero-portrait", { x: 0 }, { x: "-25%", duration: 1 }, 0)
     .to(".hero-glow", { scale: 1.3, duration: 1 }, 0)
     .to(".hero-badge", { opacity: 0, duration: 0.3 }, 0)
+    // The cue goes as soon as scrolling starts (children, so the intro's
+    // fade-in on the cue itself never fights this).
+    .to(".hero__cue > *", { opacity: 0, duration: 0.12 }, 0)
     .to(".hero__inner", { opacity: 0, duration: 0.4 }, 0)
     .to(".hero__inner", { y: "40%", duration: 0.8 }, 0)
     // About rises into place from below (never overlaps the hero).

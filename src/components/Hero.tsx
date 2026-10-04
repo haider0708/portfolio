@@ -33,11 +33,12 @@ const Hero = ({ children }: PropsWithChildren) => (
         </h2>
         <p className="hero__focus">{siteConfig.roleFocus.join(" · ")}</p>
       </div>
+    </div>
 
-      <div className="hero__cue" aria-hidden="true">
-        <span>Scroll</span>
-        <i />
-      </div>
+    {/* outside .hero__inner so it never drifts down over the next section */}
+    <div className="hero__cue" aria-hidden="true">
+      <span>Scroll</span>
+      <i />
     </div>
   </section>
 );
