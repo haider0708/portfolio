@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ScrollTrigger } from "../lib/gsap";
 import { intro } from "../lib/intro";
@@ -12,11 +12,14 @@ import Hero from "./Hero";
 import Navbar, { smoother } from "./Navbar";
 import ScrollProgress from "./ScrollProgress";
 import SideRail from "./SideRail";
-import TechStack from "./TechStack";
 import Services from "./Services";
 import Work from "./Work";
 import { initScrollAnimations } from "./utils/scrollAnimations";
 import { initSplitText } from "./utils/splitText";
+
+// The stack carries ~120 KB of brand-logo vectors and sits near the bottom of
+// the page, so it loads as its own chunk in parallel with the rest.
+const TechStack = lazy(() => import("./TechStack"));
 
 const MainContainer = () => {
   const isDesktop = useMediaQuery("(min-width: 1025px)");
@@ -82,7 +85,13 @@ const MainContainer = () => {
             <Services />
             <Experience />
             <Work />
-            <TechStack />
+            <Suspense
+              fallback={
+                <div className="stack-placeholder" aria-hidden="true" />
+              }
+            >
+              <TechStack />
+            </Suspense>
             <Contact />
           </div>
         </div>

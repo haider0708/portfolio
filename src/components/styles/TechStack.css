@@ -334,3 +334,8 @@
     right: 7px;
   }
 }
+
+/* Reserves space while the stack chunk loads (avoids a large layout jump). */
+.stack-placeholder {
+  min-height: 100vh;
+}

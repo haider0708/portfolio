@@ -42,6 +42,8 @@ const HeroPortrait = () => {
               className="hero-media"
               src={siteConfig.portrait}
               alt={siteConfig.name}
+              width={1122}
+              height={1402}
               decoding="async"
               fetchPriority="high"
             />
