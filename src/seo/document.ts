@@ -32,7 +32,12 @@ const unique = <T,>(items: T[]) => [...new Set(items)];
 const SITE = siteConfig.url;
 const PERSON_ID = `${SITE}/#person`;
 const WEBSITE_ID = `${SITE}/#website`;
-const today = new Date().toISOString().slice(0, 10);
+const builtAt = new Date();
+/** Full ISO 8601 date-time with timezone, e.g. 2026-10-05T14:03:00Z —
+ *  Google's ProfilePage requires a time, not just a date. */
+const builtAtIso = builtAt.toISOString().replace(/\.\d{3}Z$/, "Z");
+/** Date only — enough for the sitemap's <lastmod>. */
+const today = builtAtIso.slice(0, 10);
 
 /* ───────────────────────────── Structured data ───────────────────────────── */
 
@@ -168,7 +173,7 @@ export const homeSchema = () =>
       about: { "@id": PERSON_ID },
       mainEntity: { "@id": PERSON_ID },
       primaryImageOfPage: abs(siteConfig.portrait),
-      dateModified: today,
+      dateModified: builtAtIso,
       inLanguage: "en",
     },
     person(),
