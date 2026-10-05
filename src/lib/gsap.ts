@@ -7,6 +7,10 @@ import { useGSAP } from "@gsap/react";
 // Single registration point so every module can import from here.
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, useGSAP);
 
+// Phones resize the viewport as the address bar slides in and out; don't
+// re-measure every trigger for that (it causes visible jumps mid-scroll).
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 /**
  * Start/end for a ScrollTrigger spanning a section *including* any pin spacing
  * added to it. `before` = px before the section top reaches the viewport top,

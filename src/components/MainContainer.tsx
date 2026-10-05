@@ -10,7 +10,8 @@ import Contact from "./Contact";
 import Cursor from "./Cursor";
 import HeroPortrait from "./HeroPortrait";
 import Hero from "./Hero";
-import Navbar, { smoother } from "./Navbar";
+import Navbar from "./Navbar";
+import { scrollToTarget } from "../lib/scroll";
 import ScrollProgress from "./ScrollProgress";
 import SideRail from "./SideRail";
 import Services from "./Services";
@@ -55,7 +56,7 @@ const MainContainer = () => {
       initialFX();
       const { hash } = window.location;
       if (hash && document.querySelector(hash)) {
-        window.setTimeout(() => smoother?.scrollTo(hash, true, "top top"), 500);
+        window.setTimeout(() => scrollToTarget(hash), 500);
       }
     }, 0);
 

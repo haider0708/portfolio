@@ -119,6 +119,7 @@ button:focus-visible {
 /* Centred content column used by most sections */
 .wrap {
   width: 1300px;
+  margin-inline: auto;
 }
 @media only screen and (max-width: 1600px) {
   .wrap {
@@ -167,6 +168,14 @@ button:focus-visible {
   transform: scaleX(0);
   transform-origin: left center;
   pointer-events: none;
+}
+html.menu-open .scroll-progress {
+  opacity: 0;
+}
+/* Touch screens scroll natively, so the open menu locks the page here
+   (the intro sets an inline overflow, hence !important). */
+html.menu-open body {
+  overflow: hidden !important;
 }
 
 /* Fine film grain for depth — a static tile, composited once. */

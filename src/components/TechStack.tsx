@@ -84,6 +84,8 @@ const TechStack = () => {
         start: "top 95%",
         end: "max",
         once: true,
+        // small batches, so a fast scroll never leaves tiles waiting in line
+        batchMax: 8,
         onEnter: (batch) =>
           gsap.to(batch, {
             autoAlpha: 1,
@@ -98,9 +100,6 @@ const TechStack = () => {
     { scope: sectionRef },
   );
 
-  // Pointer field: tiles lean away from the cursor/finger and catch light;
-  // pressing sends a shockwave through the grid. The frame loop only runs
-  // while something is actually moving.
   // Idle floating only runs while the section is on screen.
   useEffect(() => {
     const section = sectionRef.current!;
@@ -111,6 +110,9 @@ const TechStack = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Pointer field: tiles lean away from the cursor and catch light; a click
+  // or tap sends a shockwave through the grid. The frame loop only runs
+  // while something is actually moving.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const field = fieldRef.current!;
@@ -215,7 +217,8 @@ const TechStack = () => {
       wake();
     };
 
-    const onDown = (e: PointerEvent) => {
+    /** Shockwave from a point: nearby tiles are pushed out, in distance order. */
+    const wave = (e: PointerEvent) => {
       const p = localPoint(e);
       const now = performance.now();
       for (const t of tiles) {
@@ -231,31 +234,47 @@ const TechStack = () => {
           at: now + dist * 0.9,
         };
       }
-      if (e.pointerType !== "mouse") onMove(e);
       wake();
     };
 
+    // Mouse: the field follows the pointer and a click sends the wave.
+    // Touch: a press is usually the start of a scroll, so only a finished
+    // tap (one the browser didn't take over for scrolling) reacts — the
+    // grid never shakes under a swipe.
+    let releaseTimer = 0;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") wave(e);
+    };
     const onUp = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") release();
+      if (e.pointerType === "mouse") return;
+      onMove(e);
+      wave(e);
+      window.clearTimeout(releaseTimer);
+      releaseTimer = window.setTimeout(release, 420);
+    };
+    const onMouseMove = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") onMove(e);
+    };
+    const onLeave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") release();
     };
 
     measure();
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(field);
-    field.addEventListener("pointermove", onMove, { passive: true });
-    field.addEventListener("pointerleave", release);
+    field.addEventListener("pointermove", onMouseMove, { passive: true });
+    field.addEventListener("pointerleave", onLeave);
     field.addEventListener("pointerdown", onDown);
     field.addEventListener("pointerup", onUp);
-    field.addEventListener("pointercancel", release);
 
     return () => {
       cancelAnimationFrame(frame);
+      window.clearTimeout(releaseTimer);
       resizeObserver.disconnect();
-      field.removeEventListener("pointermove", onMove);
-      field.removeEventListener("pointerleave", release);
+      field.removeEventListener("pointermove", onMouseMove);
+      field.removeEventListener("pointerleave", onLeave);
       field.removeEventListener("pointerdown", onDown);
       field.removeEventListener("pointerup", onUp);
-      field.removeEventListener("pointercancel", release);
     };
   }, []);
 

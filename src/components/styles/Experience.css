@@ -192,7 +192,7 @@
 /* Tablet & mobile: line on the left, year as a small label above each role */
 @media only screen and (max-width: 900px) {
   .experience__inner {
-    width: calc(100% - 25px);
+    width: 100%;
   }
   .timeline {
     padding-left: 22px;

@@ -9,7 +9,7 @@
 }
 .about__body {
   width: 500px;
-  max-width: calc(100% - 15px);
+  max-width: 100%;
   padding-top: 50px;
 }
 .about__title {

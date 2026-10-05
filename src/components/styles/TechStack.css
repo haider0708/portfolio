@@ -318,6 +318,7 @@
   }
   .stack-tile-in {
     aspect-ratio: auto;
+    height: 100%; /* every tile in a row matches the tallest label */
     min-height: 78px;
     padding: 12px 6px;
     gap: 8px;

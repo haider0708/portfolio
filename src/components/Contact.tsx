@@ -1,17 +1,12 @@
 import { MdArrowOutward, MdArrowUpward } from "react-icons/md";
 import { siteConfig } from "../data/siteConfig";
-import { smoother } from "./Navbar";
+import { scrollToTarget } from "../lib/scroll";
 import "./styles/Contact.css";
 
 const socials = [
   { label: "GitHub", href: siteConfig.socials.github },
   { label: "LinkedIn", href: siteConfig.socials.linkedin },
 ];
-
-const scrollToTop = () => {
-  if (smoother) smoother.scrollTo(0, true);
-  else window.scrollTo({ top: 0, behavior: "smooth" });
-};
 
 const Contact = () => (
   <section className="contact wrap" id="contact">
@@ -84,7 +79,7 @@ const Contact = () => (
         <button
           type="button"
           className="contact__top"
-          onClick={scrollToTop}
+          onClick={() => scrollToTarget(0)}
           data-cursor="hide"
         >
           Back to top <MdArrowUpward />

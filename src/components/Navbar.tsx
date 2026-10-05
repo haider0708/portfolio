@@ -1,18 +1,15 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { gsap, ScrollTrigger, sectionRange, useGSAP } from "../lib/gsap";
 import {
-  gsap,
-  ScrollSmoother,
-  ScrollTrigger,
-  sectionRange,
-  useGSAP,
-} from "../lib/gsap";
+  createSmoother,
+  destroySmoother,
+  pauseSmoother,
+  scrollToTarget,
+} from "../lib/scroll";
 import { siteConfig } from "../data/siteConfig";
 import RollLink from "./RollLink";
 import "./styles/SiteHeader.css";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export let smoother: ScrollSmoother | undefined;
 
 /** In-page sections, plus the Projects route. */
 const links = [
@@ -31,14 +28,13 @@ const Navbar = () => {
   // Mobile menu: lock scrolling while open, close on Escape.
   useEffect(() => {
     if (!menuOpen) return;
-    const wasPaused = smoother?.paused() ?? false;
-    smoother?.paused(true);
+    const wasPaused = pauseSmoother(true);
     document.documentElement.classList.add("menu-open");
     const onKey = (e: KeyboardEvent) =>
       e.key === "Escape" && setMenuOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      smoother?.paused(wasPaused);
+      pauseSmoother(wasPaused);
       document.documentElement.classList.remove("menu-open");
       window.removeEventListener("keydown", onKey);
     };
@@ -47,20 +43,7 @@ const Navbar = () => {
   // Layout effect: the smoother must exist before any ScrollTrigger (e.g. the
   // pinned Work section) is created further down the tree.
   useGSAP(() => {
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: reduceMotion ? 0 : 1.4,
-      speed: 1,
-      effects: !reduceMotion,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
-    smoother.scrollTop(0);
-    smoother.paused(true);
+    createSmoother();
 
     // Tuck the header away while reading, bring it back on scroll up.
     let hidden = false;
@@ -94,16 +77,12 @@ const Navbar = () => {
       });
     });
 
-    return () => {
-      smoother = undefined;
-    };
+    return destroySmoother;
   });
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (smoother) {
-      e.preventDefault();
-      smoother.scrollTo(href, true, "top top");
-    }
+    e.preventDefault();
+    scrollToTarget(href);
   };
 
   /** Menu links close the overlay first, then scroll or navigate. */
@@ -112,7 +91,7 @@ const Navbar = () => {
     setMenuOpen(false);
     window.setTimeout(() => {
       if (isRoute(href)) navigate(href);
-      else smoother?.scrollTo(href, true, "top top");
+      else scrollToTarget(href);
     }, 350);
   };
 

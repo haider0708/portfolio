@@ -343,7 +343,7 @@
   }
   .services__col {
     width: 500px;
-    max-width: calc(100% - 50px);
+    max-width: 100%; /* .services is already the padded page column */
     margin: auto;
   }
   .services__col:first-child {
@@ -374,7 +374,7 @@
     justify-content: flex-start;
   }
   .services__col {
-    max-width: calc(100% - 25px);
+    width: 100%;
     margin: 0;
   }
 }

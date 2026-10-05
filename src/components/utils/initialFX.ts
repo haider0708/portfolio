@@ -1,5 +1,5 @@
 import { gsap, SplitText } from "../../lib/gsap";
-import { smoother } from "../Navbar";
+import { pauseSmoother } from "../../lib/scroll";
 
 const REVEAL_FROM = { opacity: 0, y: 80, filter: "blur(5px)" };
 const REVEAL_TO = {
@@ -22,7 +22,7 @@ export function initialFX() {
   introCtx?.revert();
   introCtx = gsap.context(() => {
     document.body.style.overflowY = "auto";
-    smoother?.paused(false);
+    pauseSmoother(false);
     document.querySelector("main")?.classList.add("is-revealed");
     gsap.to("body", { backgroundColor: "#07090d", duration: 0.5, delay: 1 });
 
